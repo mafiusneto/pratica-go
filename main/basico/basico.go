@@ -3,6 +3,7 @@ package basico
 import (
 	"fmt"
 	"reflect"
+	"time"
 )
 
 var vglobal string
@@ -17,6 +18,7 @@ func ExecucaoBasicos() {
 	variaveisTipos()
 	usandoStruct()
 	outputFormat()
+	usandoDatas()
 }
 
 func pulaLinhaLog(msg string) {
@@ -120,7 +122,55 @@ func outputFormat() {
 
 func usandoDatas() {
 	pulaLinhaLog("usandoDatas")
+	data := time.Now()
+	fmt.Println("Data:", data)
+	fmt.Println("Data formato BR", data.Format(("02/01/2006 15:04:05 ")))
+	fmt.Println("Data formato EN", data.Format(("2006-01-02 15:04:05 ")))
+	fmt.Println("Data com fuso", data.Format(("2006-01-02 15:04:05 MST")))
+	fmt.Println("Data formato EN", data.Format(("2006-JAN-02 15:04:05 ")))
+	fmt.Println("Dia:", data.Format(("02, 2, Monday, Mon")))
+	fmt.Println("Mês:", data.Format(("01, 1, January, Jan")))
+	fmt.Println("Ano:", data.Format(("2006, 06")))
+	fmt.Println("time:", data.Format(("03:04:05 PM")))
 
+	/*
+		O que queremos editar		código
+		dia (com zero)				02
+		dia (sem o zero)			2
+		dia da semana (inteiro)		Monday
+		dia da semana abreviado		Mon
+		mês com número (com zero)	01
+		mês com número (sem zero)	1
+		mês (nome inteiro)			January
+		mês (nome abreviado)		Jan
+		ano (inteiro)				2006
+		ano (abreviado)				06
+		hora (com zero)				03
+		hora (sem zero)				3
+		hora (formato 24 horas)		15
+		minutos (com zero)			04
+		minutos (sem zero)			4
+		segundos (com zero)			05
+		segundos (sem zero)			5
+		MST (fuso horário)			MST
+
+		exemplos
+
+		2006-01-02
+		20060102
+		January 02, 2006
+		02 January 2006
+		02-Jan-2006
+		01/02/2006
+		01/02/06
+		010206
+		Jan-02-06
+		Jan-02-2006
+		06
+		Mon
+		Monday
+		Jan-06
+	*/
 }
 
 func usandoLoops() {
