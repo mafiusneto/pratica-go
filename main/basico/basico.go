@@ -10,6 +10,16 @@ var vglobal string
 
 const vConstante = "constante"
 
+type pessoa struct {
+	nome  string
+	idade int
+}
+
+type localizacao struct {
+	endereco string
+	numero   int
+}
+
 // executa funcionalidades basicas
 func ExecucaoBasicos() {
 	pulaLinhaLog("inicio basico")
@@ -20,6 +30,7 @@ func ExecucaoBasicos() {
 	outputFormat()
 	usandoDatas()
 	usandoLoops()
+	usandoSwitch()
 }
 
 func pulaLinhaLog(msg string) {
@@ -81,11 +92,6 @@ func variaveisTipos() {
 
 func usandoStruct() {
 	pulaLinhaLog("usandoStruct")
-
-	type pessoa struct {
-		nome  string
-		idade int
-	}
 
 	var p1 = pessoa{"Mel", 2}
 	fmt.Println(reflect.TypeOf(p1), p1)
@@ -227,7 +233,81 @@ func usandoLoops() {
 
 func usandoSwitch() {
 	pulaLinhaLog("usandoSwitch")
+	dia := 4
 
+	switch dia {
+	case 1:
+		fmt.Println("Segunda")
+	case 2:
+		fmt.Println("Terça")
+	case 3:
+		fmt.Println("Quarta")
+	case 4:
+		fmt.Println("Quinta")
+	case 5:
+		fmt.Println("Sexta")
+	case 6:
+		fmt.Println("Sabado")
+	case 7:
+		fmt.Println("Domingo")
+	default:
+		fmt.Println("dia errado")
+	}
+
+	mes := 4
+	switch mes {
+	case 1, 2, 3:
+		fmt.Println("1º trimestre")
+	case 4, 5, 6:
+		fmt.Println("2º trimestre")
+	case 7, 8, 9:
+		fmt.Println("3º trimestre")
+	case 10, 11, 12:
+		fmt.Println("4º trimestre")
+	default:
+		fmt.Println("Mês invalido")
+	}
+
+	//switch de struct
+	var p pessoa
+	var l localizacao
+	switchStructTeste(p)
+	switchStructTeste(l)
+
+	// switch por tip ode variavel
+	switchTipoVariavel(10)
+	switchTipoVariavel("oi")
+	switchTipoVariavel(false)
+	switchTipoVariavel(1.3)
+	switchTipoVariavel(p)
+}
+
+func switchStructTeste(m interface{}) {
+
+	switch m.(type) {
+	case pessoa:
+		fmt.Println("struct pessoa")
+	case localizacao:
+		fmt.Println("struct localizacao")
+	default:
+		fmt.Println("struct localizacao")
+	}
+}
+
+func switchTipoVariavel(t interface{}) {
+	fmt.Print(t, " = ")
+	switch t.(type) {
+	case int:
+		fmt.Println("inteiro")
+	case string:
+		fmt.Println("string")
+	case bool:
+		fmt.Println("booleano")
+	case float32, float64:
+		fmt.Println("float")
+	default:
+		fmt.Println("não identificado")
+	}
 }
 
 func usandoOperacoes() {
