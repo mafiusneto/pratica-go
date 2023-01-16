@@ -19,6 +19,7 @@ func ExecucaoBasicos() {
 	usandoStruct()
 	outputFormat()
 	usandoDatas()
+	usandoLoops()
 }
 
 func pulaLinhaLog(msg string) {
@@ -175,6 +176,52 @@ func usandoDatas() {
 
 func usandoLoops() {
 	pulaLinhaLog("usandoLoops")
+
+	//padrão
+	for i := 0; i < 5; i++ {
+		if i == 3 {
+			continue
+		}
+		fmt.Print(i, ",")
+	}
+	fmt.Print("\n")
+
+	//loop in array/slice
+	frutas := [...]string{"banana", "maçã", "uva"}
+	for idx, value := range frutas {
+		fmt.Println(idx, value)
+	}
+	fmt.Println("")
+
+	for idx := range frutas {
+		fmt.Println(idx, "-", frutas[idx])
+	}
+	fmt.Print("\n")
+
+	for _, value := range frutas {
+		fmt.Println(value)
+	}
+
+	//loop "infinito"
+	i := 0
+	for {
+		fmt.Print(i)
+		if i > 20 {
+			fmt.Print("\n")
+			break
+		}
+		i++
+		fmt.Print(",")
+	}
+
+	for b := 0; ; b++ {
+		fmt.Print(b)
+		if b > 20 {
+			fmt.Print("\n")
+			break
+		}
+		fmt.Print(",")
+	}
 
 }
 
