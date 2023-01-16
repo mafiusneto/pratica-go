@@ -31,6 +31,9 @@ func ExecucaoBasicos() {
 	usandoDatas()
 	usandoLoops()
 	usandoSwitch()
+	usandoOperacoes()
+	usandoCondicoes()
+
 }
 
 func pulaLinhaLog(msg string) {
@@ -313,10 +316,96 @@ func switchTipoVariavel(t interface{}) {
 func usandoOperacoes() {
 	pulaLinhaLog("usandoOperacoes")
 
+	// + - * / %
+	var a int = 1 + 1
+	b := 3 - 1
+	c := 2 * 4
+	d := 5 / 2
+	e := 11 % 3
+	f := 3
+	f++
+	g := 3
+	g--
+	fmt.Println(a, b, c, d, e, f, g)
+
+	a = f
+	b += 1
+	c -= 1
+	d *= 2
+	e /= 3
+	f %= 2
+	g &= 3
+	/*
+		|=
+		^=
+		>>=
+		<<=
+	*/
+	fmt.Println(a, b, c, d, e, f, g)
+
+	/*
+		comparação
+		==
+		!=
+		>
+		<
+		>=
+		<=
+
+
+		logico
+		&& 	and
+		||	or
+		!	negação
+
+		bitwise
+		&
+		|
+		^
+		<<   Add 0  >>    12 << 2 = 1200
+		>>  remove  >>    1234 >> 2 = 12
+	*/
+
 }
 
 func usandoCondicoes() {
 	pulaLinhaLog("usandoCondicoes")
+	/*
+		==
+		>
+		>=
+		<
+		<=
+		!=
+
+		&&
+		||
+		!
+	*/
+
+	a, b, c, d, e := 1, 2, 3, 1, 2
+
+	if a == d {
+		fmt.Println("igual")
+	}
+
+	if b > c {
+		fmt.Println("maior")
+	} else {
+		fmt.Println("menor")
+	}
+
+	if (b > a) && (d < e) { // os 2 verdades
+		fmt.Println("verdade")
+	} else {
+		fmt.Println("falso")
+	}
+
+	if (a > d) || (a == d) { // uma ou outra
+		fmt.Println("verdade")
+	} else {
+		fmt.Println("falso")
+	}
 
 }
 
