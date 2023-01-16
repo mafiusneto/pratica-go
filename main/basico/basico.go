@@ -3,6 +3,7 @@ package basico
 import (
 	"fmt"
 	"reflect"
+	"strings"
 	"time"
 )
 
@@ -33,7 +34,8 @@ func ExecucaoBasicos() {
 	usandoSwitch()
 	usandoOperacoes()
 	usandoCondicoes()
-
+	usandoArray()
+	usandoSlice()
 }
 
 func pulaLinhaLog(msg string) {
@@ -412,14 +414,77 @@ func usandoCondicoes() {
 func usandoArray() {
 	pulaLinhaLog("usandoArray")
 
+	/*
+		o que diferencia o array do slice é o tamanho predefinido no array
+		primeiro indice é 0
+	*/
+	numeros := [4]int{0, 1, 2, 3} // tamanho predefinido
+	fmt.Println(numeros)
+	fmt.Printf("array valor: %v,  tipo: %T\n", numeros, numeros) // t exibe individual
+
+	numeros2 := [...]int{4, 5, 6, 7, 8}
+	fmt.Println(numeros2)
+	fmt.Println("valor index 1", numeros2[1])
+	numeros2[0] = 1
+	numeros2[1] = 2
+	fmt.Println(numeros2, "tamanho:", len(numeros2))
+	fmt.Printf("tamanho: %d,  %d\n", len(numeros), len(numeros2))
+	fmt.Printf("capacidade: %d,  capacidade: %d\n", cap(numeros), cap(numeros2))
+
 }
 
 func usandoSlice() {
 	pulaLinhaLog("usandoSlice")
 
+	var letras = "a b c d e f g h i j"
+	listaSlice := strings.Split(letras, " ") // retorna slice
+
+	fmt.Printf(" valores: %v, tipo: %T\n", listaSlice, listaSlice)
+
+	// slice vazio
+	s1 := []string{}
+	fmt.Println("s1 - slice vazio", s1)
+
+	// separando array
+	numeros := [6]int{9, 8, 7, 6, 5, 4}
+	s2 := numeros[2:6] // da posição 2 até < 6
+	fmt.Println("numeros", numeros)
+	fmt.Println("s2 slice:", s2)
+
+	s2[3] = 7
+	fmt.Println("s2 modificado:", s2)
+
+	s3 := numeros[0:2]
+	fmt.Println("s3 slice:", s3)
+	s4 := append(s2, s3[0], s3[1])
+	fmt.Println("S4 - append elementos: ", s4)
+	s5 := append(s2, s3...)
+	fmt.Println("S5 - append slice + slice: ", s5)
+
+	//usando copy que utiliza a memoria
+	numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
+	fmt.Println("\nnumbers= ", numbers)
+	fmt.Println("tamanho= ", len(numbers))
+	fmt.Println("capacidade= ", cap(numbers))
+
+	s6 := numbers[:len(numbers)-10]    // mesmo com slice a capacidade se mantem grande do original
+	numberCopy := make([]int, len(s6)) // outra forma de criar slice ou outros tipos de variaveis
+	copy(numberCopy, s6)
+
+	fmt.Println("\ns6 slice= ", s6)
+	fmt.Println("tamanho= ", len(s6))
+	fmt.Println("capacidade= ", cap(s6))
+	fmt.Println("\nnumbers copy= ", numberCopy)
+	fmt.Println("tamanho= ", len(numberCopy))
+	fmt.Println("!!! capacidade= ", cap(numberCopy))
+
 }
 
 func usandoMaps() {
 	pulaLinhaLog("usandoMaps")
+
+}
+
+func usandoPonteiro() {
 
 }
