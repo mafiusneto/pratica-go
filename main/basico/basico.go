@@ -36,6 +36,8 @@ func ExecucaoBasicos() {
 	usandoCondicoes()
 	usandoArray()
 	usandoSlice()
+	usandoMaps()
+	usandoPonteiro()
 }
 
 func pulaLinhaLog(msg string) {
@@ -483,6 +485,36 @@ func usandoSlice() {
 func usandoMaps() {
 	pulaLinhaLog("usandoMaps")
 
+	// 	var a = map[KeyType]ValueType{key1:value1, key2:value2,...}
+	//  b := map[KeyType]ValueType{key1:value1, key2:value2,...}
+	//  var c = make(map[string]string)
+
+	var m1 = make(map[string]string)
+	m1["key1"] = "url"
+	m1["key2"] = "user"
+	m1["key3"] = "pass"
+	// fmt.Println("m1:", m1)
+
+	var m2 = make(map[string]int16)
+	m2["key1"] = 1
+	m2["key2"] = 2
+	m2["key3"] = 3
+	// fmt.Println("m2:", m2)
+
+	fmt.Printf("m1:\t%v\n", m1)
+	fmt.Printf("m2:\t%v\n", m2)
+
+	//maps com struct
+
+	var m3 = make(map[string]pessoa)
+	m3["pessoa1"] = pessoa{"Fulano", 20}
+	fmt.Printf("m3:\t%v\n", m3)
+
+	m4 := map[string]pessoa{
+		"pessoa2": pessoa{"Cicrano", 21},
+		"pessoa3": pessoa{"Beltrano", 18},
+	}
+	fmt.Printf("m4:\t%v\n", m4)
 }
 
 func usandoPonteiro() {
