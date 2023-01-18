@@ -518,5 +518,44 @@ func usandoMaps() {
 }
 
 func usandoPonteiro() {
+	pulaLinhaLog("usandoPonteiro")
+
+	// O operador & gera um ponteiro para seu operando.
+	// O tipo *T é um ponteiro para um valor T. Seu valor zero é nil.
+
+	a, b := 10, 20
+
+	c := &a               // ponteiro de a
+	fmt.Println(a, b, c)  // resp: 10 20 0xc000016ab8		exibe ponteiro
+	fmt.Println(a, b, *c) // resp: 10 20 10     			exibe valor do ponteiro
+	*c = 11               // seta valor no ponteiro
+	fmt.Println(a, b, *c) // resp: 11 20 11
+
+	//ponteiro receptor
+}
+
+func usandoChannel() {
+
+}
+
+func usandoFuncoesTxt() {
+
+}
+
+func usandoInterface() {
+
+	// type assertation ...
+
+}
+
+func usandoConcorrencia() {
+
+}
+
+func usandoMetodos() {
+
+}
+
+func usandoErrorEStringers() {
 
 }
