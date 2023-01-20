@@ -23,7 +23,7 @@ type localizacao struct {
 
 // executa funcionalidades basicas
 func ExecucaoBasicos() {
-	pulaLinhaLog("inicio basico")
+	setTituloFuncNoLog("inicio basico")
 	helloWord()
 	variaveisDeclaracao()
 	variaveisTipos()
@@ -38,9 +38,11 @@ func ExecucaoBasicos() {
 	usandoSlice()
 	usandoMaps()
 	usandoPonteiro()
+
+	usandoInterface()
 }
 
-func pulaLinhaLog(msg string) {
+func setTituloFuncNoLog(msg string) {
 	fmt.Println("")
 	fmt.Println("  #####>>>", msg, "<<<#####----------------------")
 }
@@ -51,7 +53,7 @@ func helloWord() {
 }
 
 func variaveisDeclaracao() {
-	pulaLinhaLog("variaveisDeclaracao")
+	setTituloFuncNoLog("variaveisDeclaracao")
 	vglobal = "global"
 
 	vLocal := "local" // implementação variavel local , sem "var" inferindo direto com ":=" o valor e tipo
@@ -62,7 +64,7 @@ func variaveisDeclaracao() {
 }
 
 func variaveisTipos() {
-	pulaLinhaLog("variaveisTipos")
+	setTituloFuncNoLog("variaveisTipos")
 	// exibindo tipo
 	fmt.Println("Exibir tipo:", reflect.TypeOf(vglobal), reflect.TypeOf(0), reflect.TypeOf(0.0), reflect.TypeOf(true))
 
@@ -98,7 +100,7 @@ func variaveisTipos() {
 }
 
 func usandoStruct() {
-	pulaLinhaLog("usandoStruct")
+	setTituloFuncNoLog("usandoStruct")
 
 	var p1 = pessoa{"Mel", 2}
 	fmt.Println(reflect.TypeOf(p1), p1)
@@ -111,7 +113,7 @@ func usandoStruct() {
 }
 
 func outputFormat() {
-	pulaLinhaLog("outputFormat")
+	setTituloFuncNoLog("outputFormat")
 
 	fmt.Print("Não pula", " linha")
 	fmt.Print(", agora pula", "\n", "e pula\n")
@@ -135,7 +137,7 @@ func outputFormat() {
 }
 
 func usandoDatas() {
-	pulaLinhaLog("usandoDatas")
+	setTituloFuncNoLog("usandoDatas")
 	data := time.Now()
 	fmt.Println("Data:", data)
 	fmt.Println("Data formato BR", data.Format(("02/01/2006 15:04:05 ")))
@@ -188,7 +190,7 @@ func usandoDatas() {
 }
 
 func usandoLoops() {
-	pulaLinhaLog("usandoLoops")
+	setTituloFuncNoLog("usandoLoops")
 
 	//padrão
 	for i := 0; i < 5; i++ {
@@ -239,7 +241,7 @@ func usandoLoops() {
 }
 
 func usandoSwitch() {
-	pulaLinhaLog("usandoSwitch")
+	setTituloFuncNoLog("usandoSwitch")
 	dia := 4
 
 	switch dia {
@@ -318,7 +320,7 @@ func switchTipoVariavel(t interface{}) {
 }
 
 func usandoOperacoes() {
-	pulaLinhaLog("usandoOperacoes")
+	setTituloFuncNoLog("usandoOperacoes")
 
 	// + - * / %
 	var a int = 1 + 1
@@ -373,7 +375,7 @@ func usandoOperacoes() {
 }
 
 func usandoCondicoes() {
-	pulaLinhaLog("usandoCondicoes")
+	setTituloFuncNoLog("usandoCondicoes")
 	/*
 		==
 		>
@@ -414,7 +416,7 @@ func usandoCondicoes() {
 }
 
 func usandoArray() {
-	pulaLinhaLog("usandoArray")
+	setTituloFuncNoLog("usandoArray")
 
 	/*
 		o que diferencia o array do slice é o tamanho predefinido no array
@@ -436,7 +438,7 @@ func usandoArray() {
 }
 
 func usandoSlice() {
-	pulaLinhaLog("usandoSlice")
+	setTituloFuncNoLog("usandoSlice")
 
 	var letras = "a b c d e f g h i j"
 	listaSlice := strings.Split(letras, " ") // retorna slice
@@ -483,7 +485,7 @@ func usandoSlice() {
 }
 
 func usandoMaps() {
-	pulaLinhaLog("usandoMaps")
+	setTituloFuncNoLog("usandoMaps")
 
 	// 	var a = map[KeyType]ValueType{key1:value1, key2:value2,...}
 	//  b := map[KeyType]ValueType{key1:value1, key2:value2,...}
@@ -518,7 +520,7 @@ func usandoMaps() {
 }
 
 func usandoPonteiro() {
-	pulaLinhaLog("usandoPonteiro")
+	setTituloFuncNoLog("usandoPonteiro")
 
 	// O operador & gera um ponteiro para seu operando.
 	// O tipo *T é um ponteiro para um valor T. Seu valor zero é nil.
@@ -534,17 +536,26 @@ func usandoPonteiro() {
 	//ponteiro receptor
 }
 
+func usandoInterface() {
+	setTituloFuncNoLog("usandoInterface")
+
+	// type assertation ...
+	var a any // = interface{}
+	a = "hello"
+	fmt.Printf("A1: %v, %T\n", a, a)
+	a = 1
+	fmt.Printf("A2: %v, %T\n", a, a)
+	a = 11.1
+	fmt.Printf("A3: %v, %T\n", a, a)
+	a = true
+	fmt.Printf("A3: %v, %T\n", a, a)
+}
+
 func usandoChannel() {
 
 }
 
 func usandoFuncoesTxt() {
-
-}
-
-func usandoInterface() {
-
-	// type assertation ...
 
 }
 
@@ -557,5 +568,9 @@ func usandoMetodos() {
 }
 
 func usandoErrorEStringers() {
+
+}
+
+func convertStructEmJson() {
 
 }
