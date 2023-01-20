@@ -42,11 +42,12 @@ func ExecucaoBasicos() {
 	usandoInterface()
 	usandoGoroutine()
 	usandoChannel()
+	usandoRecursosEspeciais()
 }
 
 func setTituloFuncNoLog(msg string) {
 	fmt.Println("")
-	fmt.Println("  #####>>>", msg, "<<<#####----------------------")
+	fmt.Println("\t#####>>>", msg, "<<<#####----------------------")
 }
 
 // executa hello word
@@ -557,9 +558,9 @@ func usandoGoroutine() {
 	setTituloFuncNoLog("usandoGoroutine")
 
 	fmt.Println("msg 1")
-	go falar("msg 2")
+	go falar("msg 2 - com goroutine")
 	falar("msg 3")
-	time.Sleep(time.Second * 2)
+	time.Sleep(time.Second)
 	fmt.Println("msg 4")
 }
 
@@ -568,11 +569,31 @@ func falar(msg string) {
 }
 
 func usandoChannel() {
-	setTituloFuncNoLog("usandoGoroutine")
+	setTituloFuncNoLog("usandoChannel")
+
+	ch := make(chan int, 2) //criar canal, o 2 é o numero permitido no canal
+	defer close(ch)         // close finaliza o canal e o defer indica executar no final do metodo
+
+	fmt.Println("ch -  tamanho:", len(ch), "capacidade:", cap(ch))
+	ch <- 4 // atribui dados ao canal
+	ch <- 3 // atribui dados ao canal
+	// ch <- 2 // da erro pq o canal ta sem espaço deadlock, usando e paralelo com goroutine ficaria na espera para atribuir - testar
+	fmt.Println("ch -  tamanho:", len(ch), "capacidade:", cap(ch))
+	fmt.Println("puxa valor ch:", <-ch)
+	fmt.Println("ch -  tamanho:", len(ch), "capacidade:", cap(ch))
+	fmt.Println("puxa valor ch:", <-ch)
+	fmt.Println("ch -  tamanho:", len(ch), "capacidade:", cap(ch))
 }
 
-func usandoFuncoesTxt() {
+func usandoRecursosEspeciais() {
+	setTituloFuncNoLog("usandoRecursosEspeciais")
 
+	// defer - executa somente no final do metodo
+	fmt.Println("msg 1")
+	defer falar("msg 2 - defer")
+	falar("msg 3")
+	time.Sleep(time.Second)
+	fmt.Println("msg 4")
 }
 
 func usandoConcorrencia() {
