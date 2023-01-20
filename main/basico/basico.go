@@ -40,6 +40,8 @@ func ExecucaoBasicos() {
 	usandoPonteiro()
 
 	usandoInterface()
+	usandoGoroutine()
+	usandoChannel()
 }
 
 func setTituloFuncNoLog(msg string) {
@@ -551,8 +553,22 @@ func usandoInterface() {
 	fmt.Printf("A3: %v, %T\n", a, a)
 }
 
-func usandoChannel() {
+func usandoGoroutine() {
+	setTituloFuncNoLog("usandoGoroutine")
 
+	fmt.Println("msg 1")
+	go falar("msg 2")
+	falar("msg 3")
+	time.Sleep(time.Second * 2)
+	fmt.Println("msg 4")
+}
+
+func falar(msg string) {
+	fmt.Println(msg)
+}
+
+func usandoChannel() {
+	setTituloFuncNoLog("usandoGoroutine")
 }
 
 func usandoFuncoesTxt() {
