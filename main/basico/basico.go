@@ -3,11 +3,13 @@ package basico
 import (
 	"fmt"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 )
 
 var vglobal string
+var indexFunc = 1
 
 const vConstante = "constante"
 
@@ -23,7 +25,7 @@ type localizacao struct {
 
 // executa funcionalidades basicas
 func ExecucaoBasicos() {
-	setTituloFuncNoLog("inicio basico")
+	fmt.Println("\tInicio basico")
 	helloWord()
 	variaveisDeclaracao()
 	variaveisTipos()
@@ -45,13 +47,15 @@ func ExecucaoBasicos() {
 	usandoRecursosEspeciais()
 	usandoConcorrencia()
 	usandoMetodosDeStruct()
+	usandoConversoes()
 
-	setTituloFuncNoLog("Fim basico")
+	fmt.Println("\nFim basico")
 }
 
 func setTituloFuncNoLog(msg string) {
 	fmt.Println("")
-	fmt.Println("\t#####>>>", msg, "<<<#####----------------------")
+	fmt.Println("\t", indexFunc, "- #####>>>", msg, "<<<#####----------------------")
+	indexFunc++
 }
 
 // executa hello word
@@ -678,6 +682,52 @@ func (p pessoa) getPessoaFormatada() string {
 	return "Nome:" + p.nome
 }
 
+func usandoConversoes() {
+	setTituloFuncNoLog("usandoConversoes")
+
+	//inteiro to string
+	i1 := 11
+	s1 := strconv.FormatInt(int64(i1), 10)
+	s2 := strconv.Itoa(i1)
+	fmt.Printf("int para string: %v, %T\n", s1, s1)
+	fmt.Printf("int para string: %v, %T\n", s2, s2)
+
+	// float to string
+	f1 := 12.345
+	s1 = strconv.FormatFloat(f1, 'f', 2, 64)
+	fmt.Printf("float64 para string: %v, %T\n", s1, s1)
+	/*
+		%f     default width, default precision
+		%9f    width 9, default precision
+		%.2f   default width, precision 2
+		%9.2f  width 9, precision 2
+		%9.f   width 9, precision 0
+	*/
+	s2 = fmt.Sprintf("%.4f", f1)
+	fmt.Printf("float64 para string: %v, %T\n", s2, s2)
+
+	// bool to string
+	b1 := true
+	s1 = strconv.FormatBool(b1)
+	fmt.Printf("bool para string: %v, %T\n", s1, s1)
+
+	// string to int
+	s3 := "12"
+	i2, err := strconv.ParseInt(s3, 10, 0)
+	fmt.Printf("string para int: %v, %T, erro?: %v\n", i2, i2, err)
+
+	// string to float64
+	s3 = "123.456"
+	f2, err := strconv.ParseFloat(s3, 64)
+	fmt.Printf("string para float: %v, %T, erro?: %v\n", f2, f2, err)
+
+	// string to bool
+	s3 = "true"
+	b2, err := strconv.ParseBool(s3)
+	fmt.Printf("string para bool: %v, %T, erro?: %v\n", b2, b2, err)
+
+}
+
 func usandoErrorEStringers() {
 	setTituloFuncNoLog("usandoErrorEStringers")
 
@@ -685,10 +735,5 @@ func usandoErrorEStringers() {
 
 func convertStructEmJson() {
 	setTituloFuncNoLog("convertStructEmJson")
-
-}
-
-func usandoConversoes() {
-	setTituloFuncNoLog("usandoConversoes")
 
 }
