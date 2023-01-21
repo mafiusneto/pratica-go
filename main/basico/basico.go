@@ -1,6 +1,7 @@
 package basico
 
 import (
+	"encoding/json"
 	"fmt"
 	"reflect"
 	"strconv"
@@ -48,6 +49,8 @@ func ExecucaoBasicos() {
 	usandoConcorrencia()
 	usandoMetodosDeStruct()
 	usandoConversoes()
+
+	convertStructEmJson()
 
 	fmt.Println("\nFim basico")
 }
@@ -735,5 +738,61 @@ func usandoErrorEStringers() {
 
 func convertStructEmJson() {
 	setTituloFuncNoLog("convertStructEmJson")
+
+	// STRUCt to JSON
+
+	// json sem format
+	type s1 struct {
+		campo1 string // oculto no JSON
+		campo2 int    // oculto no JSON
+		Campo3 bool
+		Campo4 float64
+	}
+
+	a := s1{"Ze", 50, true, 1234.567}
+	out, err := json.Marshal(a)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("STRUCT to JSON - \"S1\":", string(out))
+
+	// S2 #############################################
+	type s2 struct {
+		Campo1 string
+		Campo2 int
+		Campo3 bool
+		Campo4 float64
+	}
+
+	b := s2{"Cana", 51, true, 1234.567}
+	out, err = json.Marshal(b)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("STRUCT to JSON - \"S2\":", string(out))
+
+	// S3 - format json ###################################
+	type s3 struct {
+		Campo1 string   `json:"nome"`
+		Campo2 int      `json:"idade"`
+		Campo3 bool     `json:"casado"`
+		Campo4 float64  `json:"salario"`
+		Campo5 []string `json:"tags"`
+	}
+
+	c := s3{"Pitu", 51, false, 1234.567, []string{"teste", "json"}}
+	out, err = json.Marshal(c)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("STRUCT to JSON - \"S3\":", string(out))
+
+	// S3 - json to struct ###################################
+	var pessoa s3
+	jsonString := `{"nome":"Creusa","idade":18,"casado":false,"salario":0,"tags":["teste","json"]}`
+	json.Unmarshal([]byte(jsonString), &pessoa) // atenção array byte e &
+	fmt.Println("jsonString: ", jsonString)
+	fmt.Println("string to struct - Pessoa S3:", pessoa)
+	fmt.Println("Pessoa S3 value:", pessoa.Campo5[0])
 
 }
