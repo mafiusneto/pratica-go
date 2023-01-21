@@ -679,9 +679,16 @@ func (p pessoa) getPessoaFormatada() string {
 }
 
 func usandoErrorEStringers() {
+	setTituloFuncNoLog("usandoErrorEStringers")
 
 }
 
 func convertStructEmJson() {
+	setTituloFuncNoLog("convertStructEmJson")
+
+}
+
+func usandoConversoes() {
+	setTituloFuncNoLog("usandoConversoes")
 
 }
