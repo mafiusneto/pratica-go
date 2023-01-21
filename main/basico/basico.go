@@ -43,6 +43,10 @@ func ExecucaoBasicos() {
 	usandoGoroutine()
 	usandoChannel()
 	usandoRecursosEspeciais()
+	usandoConcorrencia()
+	usandoMetodosDeStruct()
+
+	setTituloFuncNoLog("Fim basico")
 }
 
 func setTituloFuncNoLog(msg string) {
@@ -597,11 +601,81 @@ func usandoRecursosEspeciais() {
 }
 
 func usandoConcorrencia() {
+	setTituloFuncNoLog("usandoConcorrencia")
+
+	// erro apos umas repetições
+
+	t1 := concorrenciaUrlsGetTitulos("https://www.google.com.br", "https://www.amazon.com.br")
+	t2 := concorrenciaUrlsGetTitulos("https://www.uol.com.br", "https://www.terra.com.br")
+
+	fmt.Println("Primeiros:", <-t1, " |  ", <-t2)
+	fmt.Println("Segundos:", <-t1, " |  ", <-t2)
+
+	// usando de forma diferente
+
+	fmt.Println("\nSegunda forma")
+	c := juntar(
+		concorrenciaUrlsGetTitulos("https://www.google.com.br", "https://www.amazon.com.br"),
+		concorrenciaUrlsGetTitulos("https://www.uol.com.br", "https://www.terra.com.br"),
+	)
+	for i := 1; i <= 4; i++ {
+		fmt.Println(i, "titulo:", <-c)
+	}
+}
+
+func concorrenciaUrlsGetTitulos(urls ...string) <-chan string {
+	c := make(chan string, 2)
+	for _, url := range urls {
+		// resp, e1 := http.Get(url)
+		// if e1 != nil {
+		// 	fmt.Println("Erro resp")
+		// 	panic(e1)
+		// }
+		// html, e2 := ioutil.ReadAll(resp.Body)
+		// if e2 != nil {
+		// 	fmt.Println("Erro html")
+		// 	panic(e2)
+		// }
+
+		// r, _ := regexp.Compile("<title>(.*?)<\\/title>")
+
+		// c <- r.FindStringSubmatch(string(html))[0]
+		c <- url
+	}
+	return c
+}
+
+func encaminhar(origem <-chan string, destino chan string) {
+	for {
+		destino <- <-origem
+	}
+}
+
+func juntar(entrada1, entrada2 <-chan string) <-chan string {
+	c := make(chan string)
+	go encaminhar(entrada1, c)
+	go encaminhar(entrada2, c)
+	return c
+}
+
+func usandoMetodosDeStruct() {
+	setTituloFuncNoLog("usandoMetodosDeStruct")
+
+	// basicamente a função vira um metodo da struct
+	p1 := pessoa{"fulano", 10}
+	p1.toString()
+	fmt.Println(p1.getPessoaFormatada())
 
 }
 
-func usandoMetodos() {
+// essa função virou um metodo de pessoa
+func (p pessoa) toString() {
+	fmt.Println(p)
+}
 
+// essa função virou um metodo de pessoa
+func (p pessoa) getPessoaFormatada() string {
+	return "Nome:" + p.nome
 }
 
 func usandoErrorEStringers() {
