@@ -1,13 +1,16 @@
 package basico
 
 import (
+	"encoding/json"
 	"fmt"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 )
 
 var vglobal string
+var indexFunc = 1
 
 const vConstante = "constante"
 
@@ -23,7 +26,7 @@ type localizacao struct {
 
 // executa funcionalidades basicas
 func ExecucaoBasicos() {
-	setTituloFuncNoLog("inicio basico")
+	fmt.Println("\tInicio basico")
 	helloWord()
 	variaveisDeclaracao()
 	variaveisTipos()
@@ -45,13 +48,17 @@ func ExecucaoBasicos() {
 	usandoRecursosEspeciais()
 	usandoConcorrencia()
 	usandoMetodosDeStruct()
+	usandoConversoes()
 
-	setTituloFuncNoLog("Fim basico")
+	convertStructEmJson()
+
+	fmt.Println("\nFim basico")
 }
 
 func setTituloFuncNoLog(msg string) {
 	fmt.Println("")
-	fmt.Println("\t#####>>>", msg, "<<<#####----------------------")
+	fmt.Println("\t", indexFunc, "- #####>>>", msg, "<<<#####----------------------")
+	indexFunc++
 }
 
 // executa hello word
@@ -678,6 +685,52 @@ func (p pessoa) getPessoaFormatada() string {
 	return "Nome:" + p.nome
 }
 
+func usandoConversoes() {
+	setTituloFuncNoLog("usandoConversoes")
+
+	//inteiro to string
+	i1 := 11
+	s1 := strconv.FormatInt(int64(i1), 10)
+	s2 := strconv.Itoa(i1)
+	fmt.Printf("int para string: %v, %T\n", s1, s1)
+	fmt.Printf("int para string: %v, %T\n", s2, s2)
+
+	// float to string
+	f1 := 12.345
+	s1 = strconv.FormatFloat(f1, 'f', 2, 64)
+	fmt.Printf("float64 para string: %v, %T\n", s1, s1)
+	/*
+		%f     default width, default precision
+		%9f    width 9, default precision
+		%.2f   default width, precision 2
+		%9.2f  width 9, precision 2
+		%9.f   width 9, precision 0
+	*/
+	s2 = fmt.Sprintf("%.4f", f1)
+	fmt.Printf("float64 para string: %v, %T\n", s2, s2)
+
+	// bool to string
+	b1 := true
+	s1 = strconv.FormatBool(b1)
+	fmt.Printf("bool para string: %v, %T\n", s1, s1)
+
+	// string to int
+	s3 := "12"
+	i2, err := strconv.ParseInt(s3, 10, 0)
+	fmt.Printf("string para int: %v, %T, erro?: %v\n", i2, i2, err)
+
+	// string to float64
+	s3 = "123.456"
+	f2, err := strconv.ParseFloat(s3, 64)
+	fmt.Printf("string para float: %v, %T, erro?: %v\n", f2, f2, err)
+
+	// string to bool
+	s3 = "true"
+	b2, err := strconv.ParseBool(s3)
+	fmt.Printf("string para bool: %v, %T, erro?: %v\n", b2, b2, err)
+
+}
+
 func usandoErrorEStringers() {
 	setTituloFuncNoLog("usandoErrorEStringers")
 
@@ -686,9 +739,60 @@ func usandoErrorEStringers() {
 func convertStructEmJson() {
 	setTituloFuncNoLog("convertStructEmJson")
 
-}
+	// STRUCt to JSON
 
-func usandoConversoes() {
-	setTituloFuncNoLog("usandoConversoes")
+	// json sem format
+	type s1 struct {
+		campo1 string // oculto no JSON
+		campo2 int    // oculto no JSON
+		Campo3 bool
+		Campo4 float64
+	}
+
+	a := s1{"Ze", 50, true, 1234.567}
+	out, err := json.Marshal(a)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("STRUCT to JSON - \"S1\":", string(out))
+
+	// S2 #############################################
+	type s2 struct {
+		Campo1 string
+		Campo2 int
+		Campo3 bool
+		Campo4 float64
+	}
+
+	b := s2{"Cana", 51, true, 1234.567}
+	out, err = json.Marshal(b)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("STRUCT to JSON - \"S2\":", string(out))
+
+	// S3 - format json ###################################
+	type s3 struct {
+		Campo1 string   `json:"nome"`
+		Campo2 int      `json:"idade"`
+		Campo3 bool     `json:"casado"`
+		Campo4 float64  `json:"salario"`
+		Campo5 []string `json:"tags"`
+	}
+
+	c := s3{"Pitu", 51, false, 1234.567, []string{"teste", "json"}}
+	out, err = json.Marshal(c)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("STRUCT to JSON - \"S3\":", string(out))
+
+	// S3 - json to struct ###################################
+	var pessoa s3
+	jsonString := `{"nome":"Creusa","idade":18,"casado":false,"salario":0,"tags":["teste","json"]}`
+	json.Unmarshal([]byte(jsonString), &pessoa) // atenção array byte e &
+	fmt.Println("jsonString: ", jsonString)
+	fmt.Println("string to struct - Pessoa S3:", pessoa)
+	fmt.Println("Pessoa S3 value:", pessoa.Campo5[0])
 
 }
