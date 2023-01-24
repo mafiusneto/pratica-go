@@ -52,6 +52,7 @@ func ExecucaoBasicos() {
 	usandoConversoes()
 	convertStructEmJson()
 	usandoVariaveisDeAmbiente()
+	usandoErrorEStringers()
 
 	fmt.Println("\nFim basico")
 }
@@ -732,11 +733,6 @@ func usandoConversoes() {
 
 }
 
-func usandoErrorEStringers() {
-	setTituloFuncNoLog("usandoErrorEStringers")
-
-}
-
 func convertStructEmJson() {
 	setTituloFuncNoLog("convertStructEmJson")
 
@@ -844,4 +840,30 @@ func usandoVariaveisDeAmbiente() {
 
 	}
 
+}
+
+func usandoErrorEStringers() {
+	setTituloFuncNoLog("usandoErrorEStringers")
+
+	p := pessoa{"Creusa", 18}
+	fmt.Println(p.String())
+
+	s, err := sayHello()
+	if err != nil {
+		fmt.Println("Erro esperadooo:", err)
+	}
+	fmt.Println(s)
+
+}
+
+func sayHello() (string, error) {
+	return "", &pessoa{}
+}
+
+func (p *pessoa) Error() string {
+	return fmt.Sprintf("Error pessoa %v", *p)
+}
+
+func (p *pessoa) String() string {
+	return fmt.Sprintf("Pessoa to String %v", *p)
 }
