@@ -3,6 +3,7 @@ package basico
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"reflect"
 	"strconv"
 	"strings"
@@ -49,8 +50,8 @@ func ExecucaoBasicos() {
 	usandoConcorrencia()
 	usandoMetodosDeStruct()
 	usandoConversoes()
-
 	convertStructEmJson()
+	usandoVariaveisDeAmbiente()
 
 	fmt.Println("\nFim basico")
 }
@@ -794,5 +795,53 @@ func convertStructEmJson() {
 	fmt.Println("jsonString: ", jsonString)
 	fmt.Println("string to struct - Pessoa S3:", pessoa)
 	fmt.Println("Pessoa S3 value:", pessoa.Campo5[0])
+
+}
+
+func usandoVariaveisDeAmbiente() {
+	setTituloFuncNoLog("usandoVariaveisDeAmbiente")
+
+	/*
+		comandos
+
+		- Defina uma variável de ambiente com os.Setenv(). Este método aceita ambos os parâmetros como strings. Ele retorna um erro, se houver.
+		os.Setenv(key,value)
+
+		- Obtenha o valor da variável de ambiente com os.Getenv(). Este método retorna o valor da variável se a variável estiver presente, caso contrário, ele retorna um valor vazio.
+		os.Getenv(key)
+
+		- Exclua ou remova a definição de uma única variável de ambiente usando o método os.Unsetenv(). Este método retorna um erro, se houver.
+		os.Unsetenv(key)
+
+		- Obtenha o valor da variável de ambiente e um booleano com os.LookupEnv(). Boolean indica que uma chave está presente ou não. Se a chave não estiver presente, false será retornado.
+		os.LookupEnv(key)
+
+		- Liste todas as variáveis ​​de ambiente e seus valores com os.Environ(). Este método retorna uma cópia de strings, do formato “ chave = valor” .
+		os.Environ()
+
+		- Exclua todas as variáveis ​​de ambiente com os.Clearenv().
+		os.Clearenv() // perigoso por remover tudo
+
+	*/
+
+	// set environment variable GEEKS
+	os.Setenv("GEEKS", "geeksssss")
+
+	// returns value of GEEKS
+	fmt.Println("GEEKS:", os.Getenv("GEEKS"))
+
+	// Unset environment variable GEEKS
+	os.Unsetenv("GEEKS")
+
+	// returns empty string and false,
+	// because we removed the GEEKS variable
+	value, ok := os.LookupEnv("GEEKS")
+
+	fmt.Println("GEEKS:", value, " Is present:", ok)
+	fmt.Println("Todas as variaveis do Ambiente:")
+	for index, value := range os.Environ() {
+		fmt.Printf("%v - %v\n", index, value)
+
+	}
 
 }
