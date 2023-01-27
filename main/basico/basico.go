@@ -3,6 +3,8 @@ package basico
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
 	"os"
 	"reflect"
 	"strconv"
@@ -53,6 +55,8 @@ func ExecucaoBasicos() {
 	convertStructEmJson()
 	usandoVariaveisDeAmbiente()
 	usandoErrorEStringers()
+
+	usandoHttp()
 
 	fmt.Println("\nFim basico")
 }
@@ -866,4 +870,34 @@ func (p *pessoa) Error() string {
 
 func (p *pessoa) String() string {
 	return fmt.Sprintf("Pessoa to String %v", *p)
+}
+
+/*
+URL para teste: http://localhost:8080/users
+*/
+func usandoHttp() {
+	setTituloFuncNoLog("usandoHttp api")
+	http.HandleFunc("/users", getUsers)
+	fmt.Println("api in on: 8080")
+
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+type User struct {
+	Id   int    `json:id`
+	Name string `json:name`
+}
+
+func getUsers(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
+	}
+
+	w.Header().Set("Content=Type", "application/json")
+	json.NewEncoder(w).Encode([]User{
+		{Id: 1, Name: "Neto"},
+		{Id: 2, Name: "Pai"},
+	})
 }
