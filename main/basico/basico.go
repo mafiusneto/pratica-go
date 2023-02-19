@@ -3,6 +3,9 @@ package basico
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
+	"os"
 	"reflect"
 	"strconv"
 	"strings"
@@ -49,8 +52,11 @@ func ExecucaoBasicos() {
 	usandoConcorrencia()
 	usandoMetodosDeStruct()
 	usandoConversoes()
-
 	convertStructEmJson()
+	usandoVariaveisDeAmbiente()
+	usandoErrorEStringers()
+
+	usandoHttp()
 
 	fmt.Println("\nFim basico")
 }
@@ -731,11 +737,6 @@ func usandoConversoes() {
 
 }
 
-func usandoErrorEStringers() {
-	setTituloFuncNoLog("usandoErrorEStringers")
-
-}
-
 func convertStructEmJson() {
 	setTituloFuncNoLog("convertStructEmJson")
 
@@ -795,4 +796,108 @@ func convertStructEmJson() {
 	fmt.Println("string to struct - Pessoa S3:", pessoa)
 	fmt.Println("Pessoa S3 value:", pessoa.Campo5[0])
 
+}
+
+func usandoVariaveisDeAmbiente() {
+	setTituloFuncNoLog("usandoVariaveisDeAmbiente")
+
+	/*
+		comandos
+
+		- Defina uma variável de ambiente com os.Setenv(). Este método aceita ambos os parâmetros como strings. Ele retorna um erro, se houver.
+		os.Setenv(key,value)
+
+		- Obtenha o valor da variável de ambiente com os.Getenv(). Este método retorna o valor da variável se a variável estiver presente, caso contrário, ele retorna um valor vazio.
+		os.Getenv(key)
+
+		- Exclua ou remova a definição de uma única variável de ambiente usando o método os.Unsetenv(). Este método retorna um erro, se houver.
+		os.Unsetenv(key)
+
+		- Obtenha o valor da variável de ambiente e um booleano com os.LookupEnv(). Boolean indica que uma chave está presente ou não. Se a chave não estiver presente, false será retornado.
+		os.LookupEnv(key)
+
+		- Liste todas as variáveis ​​de ambiente e seus valores com os.Environ(). Este método retorna uma cópia de strings, do formato “ chave = valor” .
+		os.Environ()
+
+		- Exclua todas as variáveis ​​de ambiente com os.Clearenv().
+		os.Clearenv() // perigoso por remover tudo
+
+	*/
+
+	// set environment variable GEEKS
+	os.Setenv("GEEKS", "geeksssss")
+
+	// returns value of GEEKS
+	fmt.Println("GEEKS:", os.Getenv("GEEKS"))
+
+	// Unset environment variable GEEKS
+	os.Unsetenv("GEEKS")
+
+	// returns empty string and false,
+	// because we removed the GEEKS variable
+	value, ok := os.LookupEnv("GEEKS")
+
+	fmt.Println("GEEKS:", value, " Is present:", ok)
+	fmt.Println("Todas as variaveis do Ambiente:")
+	for index, value := range os.Environ() {
+		fmt.Printf("%v - %v\n", index, value)
+
+	}
+
+}
+
+func usandoErrorEStringers() {
+	setTituloFuncNoLog("usandoErrorEStringers")
+
+	p := pessoa{"Creusa", 18}
+	fmt.Println(p.String())
+
+	s, err := sayHello()
+	if err != nil {
+		fmt.Println("Erro esperadooo:", err)
+	}
+	fmt.Println(s)
+
+}
+
+func sayHello() (string, error) {
+	return "", &pessoa{}
+}
+
+func (p *pessoa) Error() string {
+	return fmt.Sprintf("Error pessoa %v", *p)
+}
+
+func (p *pessoa) String() string {
+	return fmt.Sprintf("Pessoa to String %v", *p)
+}
+
+/*
+URL para teste: http://localhost:8080/users
+*/
+func usandoHttp() {
+	setTituloFuncNoLog("usandoHttp api")
+	http.HandleFunc("/users", getUsers)
+	fmt.Println("api in on: 8080")
+
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+type User struct {
+	Id   int    `json:id`
+	Name string `json:name`
+}
+
+func getUsers(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
+	}
+
+	w.Header().Set("Content=Type", "application/json")
+	json.NewEncoder(w).Encode([]User{
+		{Id: 1, Name: "Neto"},
+		{Id: 2, Name: "Pai"},
+	})
 }
